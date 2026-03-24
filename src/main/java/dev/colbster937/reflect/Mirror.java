@@ -34,6 +34,10 @@ public final class Mirror {
     return getFieldValue(obj, obj.getClass(), name);
   }
 
+  public static final <T> T getFieldValue(final Class<?> clazz, final String name) throws ReflectiveOperationException {
+    return getFieldValue(null, clazz, name);
+  }
+
   public static final Method getMethod(final Class<?> clazz, final String name, final Class<?>... params)
       throws ReflectiveOperationException {
     try {
@@ -63,6 +67,11 @@ public final class Mirror {
   public static final <T> T invokeMethod(final Object obj, final String name, final Object... params)
       throws ReflectiveOperationException {
     return invokeMethod(obj, obj.getClass(), name, params);
+  }
+
+  public static final <T> T invokeMethod(final Class<?> clazz, final String name, final Object... params)
+      throws ReflectiveOperationException {
+    return invokeMethod(null, clazz, name, params);
   }
 
   public static final Constructor<?> getConstructor(final Class<?> clazz, final Class<?>... params)

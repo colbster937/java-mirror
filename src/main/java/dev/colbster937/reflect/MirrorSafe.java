@@ -13,6 +13,10 @@ public final class MirrorSafe {
     return getFieldValue(obj, obj.getClass(), name);
   }
 
+  public static final <T> T getFieldValue(final Class<?> clazz, final String name) {
+    return getFieldValue(null, clazz, name);
+  }
+
   public static final <T> T invokeMethod(final Object obj, final Class<?> clazz, final String name,
       final Object... params) {
     try {
@@ -24,6 +28,10 @@ public final class MirrorSafe {
 
   public static final <T> T invokeMethod(final Object obj, final String name, final Object... params) {
     return invokeMethod(obj, obj.getClass(), name, params);
+  }
+
+  public static final <T> T invokeMethod(final Class<?> clazz, final String name, final Object... params) {
+    return invokeMethod(null, clazz, name, params);
   }
 
   public static final <T> T invokeConstructor(final Class<?> clazz, final Object... params) {
