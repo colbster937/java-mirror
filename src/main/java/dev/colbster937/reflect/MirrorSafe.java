@@ -41,4 +41,12 @@ public final class MirrorSafe {
       return null;
     }
   }
+
+  public static final Class<?> getClass(final String clazz) {
+    try {
+      return Class.forName(clazz);
+    } catch (final ClassNotFoundException ex) {
+      return null;
+    }
+  }
 }
