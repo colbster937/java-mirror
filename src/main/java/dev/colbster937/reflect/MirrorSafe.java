@@ -42,7 +42,7 @@ public final class MirrorSafe {
     }
   }
 
-  public static final Class<?> getClassFromString(final String clazz) {
+  public static final Class<?> getClass(final String clazz) {
     try {
       return Class.forName(clazz);
     } catch (final ClassNotFoundException ex) {
