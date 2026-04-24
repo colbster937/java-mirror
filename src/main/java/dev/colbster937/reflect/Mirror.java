@@ -3,9 +3,22 @@ package dev.colbster937.reflect;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 @SuppressWarnings({ "unchecked", "FinalPrivateMethod" })
 public final class Mirror {
+  private static final Map<Class<?>, Class<?>> PRIMITIVES = Map.of(
+    int.class, Integer.class,
+    boolean.class, Boolean.class,
+    double.class, Double.class,
+    float.class, Float.class,
+    long.class, Long.class,
+    short.class, Short.class,
+    byte.class, Byte.class,
+    char.class, Character.class,
+    void.class, Void.class
+  );
+
   public static final Field getField(final Class<?> clazz, final String name) throws ReflectiveOperationException {
     try {
       final Field field = clazz.getDeclaredField(name);
@@ -55,6 +68,13 @@ public final class Mirror {
       method.setAccessible(true);
       return method;
     } catch (final ReflectiveOperationException ex) {
+      for (final Method method : clazz.getDeclaredMethods()) {
+        if (method.getName().equals(name) && isAssignableParam(method.getParameterTypes(), params)) {
+          method.setAccessible(true);
+          return method;
+        }
+      }
+
       final Class<?> sup = clazz.getSuperclass();
       if (sup != null) {
         return getMethod(sup, name, params);
@@ -81,9 +101,20 @@ public final class Mirror {
   }
 
   public static final Constructor<?> getConstructor(final Class<?> clazz, final Class<?>... params) throws ReflectiveOperationException {
-    final Constructor<?> constructor = clazz.getDeclaredConstructor(params);
-    constructor.setAccessible(true);
-    return constructor;
+    try {
+      final Constructor<?> constructor = clazz.getDeclaredConstructor(params);
+      constructor.setAccessible(true);
+      return constructor;
+    } catch (final ReflectiveOperationException ex) {
+      for (final Constructor<?> constructor : clazz.getDeclaredConstructors()) {
+        if (isAssignableParam(constructor.getParameterTypes(), params)) {
+          constructor.setAccessible(true);
+          return constructor;
+        }
+      }
+
+      throw ex;
+    }
   }
 
   public static final <T> T invokeConstructor(final Class<?> clazz, final Object... params) throws ReflectiveOperationException {
@@ -127,8 +158,13 @@ public final class Mirror {
     }
   }
 
+  public static final Class<?> wrapPrimitiveValue(final Class<?> clazz) {
+    return PRIMITIVES.getOrDefault(clazz, clazz);
+  }
+
   private static final Class<?>[] getTypes(final Object... params) {
     final Class<?>[] types = new Class[params.length];
+
     for (int i = 0; i < params.length; i++) {
       if (params[i] != null) {
         types[i] = params[i].getClass();
@@ -136,6 +172,33 @@ public final class Mirror {
         types[i] = Object.class;
       }
     }
+
     return types;
+  }
+
+  private static final boolean isAssignableParam(final Class<?>[] a, final Class<?>[] b) {
+    boolean ret = true;
+
+    if (a.length == b.length) {
+      for (int i = 0; i < a.length; i++) {
+        if (b[i] == Object.class) {
+          if (a[i].isPrimitive()) {
+            ret = false;
+          } else {
+            continue;
+          }
+        } else if (!wrapPrimitiveValue(a[i]).isAssignableFrom(wrapPrimitiveValue(b[i]))) {
+          ret = false;
+        }
+
+        if (!ret) {
+          break;
+        }
+      }
+    } else {
+      ret = false;
+    }
+
+    return ret;
   }
 }
