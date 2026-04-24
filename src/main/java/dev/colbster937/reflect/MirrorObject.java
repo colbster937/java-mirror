@@ -1,5 +1,7 @@
 package dev.colbster937.reflect;
 
+import java.lang.reflect.Field;
+
 public final class MirrorObject<O> {
   private final O obj;
 
@@ -7,8 +9,16 @@ public final class MirrorObject<O> {
     this.obj = obj;
   }
 
+  public final Field getField(final String name) {
+    return MirrorSafe.getField(this.obj, name);
+  }
+
   public final <T> T getFieldValue(final String name) {
     return MirrorSafe.getFieldValue(this.obj, name);
+  }
+
+  public final void setFieldValue(final String name, final Object value) {
+    MirrorSafe.setFieldValue(this.obj, name, value);
   }
 
   public final <T> T invokeMethod(final String name, final Object... params) {
