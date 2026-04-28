@@ -38,28 +38,28 @@ public final class Mirror {
     return getField(obj.getClass(), name);
   }
 
-  public static final <T> T getFieldValue(final Object obj, final Class<?> clazz, final String name) throws ReflectiveOperationException {
+  public static final <T> T getFieldValue(final Class<?> clazz, final Object obj, final String name) throws ReflectiveOperationException {
     return (T) getField(clazz, name).get(obj);
   }
 
   public static final <T> T getFieldValue(final Object obj, final String name) throws ReflectiveOperationException {
-    return getFieldValue(obj, obj.getClass(), name);
+    return getFieldValue(obj.getClass(), obj, name);
   }
 
   public static final <T> T getFieldValue(final Class<?> clazz, final String name) throws ReflectiveOperationException {
     return getFieldValue(null, clazz, name);
   }
 
-  public static final void setFieldValue(final Object obj, final Class<?> clazz, final String name, final Object value) throws ReflectiveOperationException {
+  public static final void setFieldValue(final Class<?> clazz, final Object obj, final String name, final Object value) throws ReflectiveOperationException {
     getField(clazz, name).set(obj, value);
   }
 
   public static final void setFieldValue(final Object obj, final String name, final Object value) throws ReflectiveOperationException {
-    setFieldValue(obj, obj.getClass(), name, value);
+    setFieldValue(obj.getClass(), obj, name, value);
   }
 
   public static final void setFieldValue(final Class<?> clazz, final String name, final Object value) throws ReflectiveOperationException {
-    setFieldValue(null, clazz, name, value);
+    setFieldValue(clazz, null, name, value);
   }
 
   public static final Method getMethod(final Class<?> clazz, final String name, final Class<?>... params) throws ReflectiveOperationException {
@@ -88,12 +88,12 @@ public final class Mirror {
     return getMethod(obj.getClass(), name, params);
   }
 
-  public static final <T> T invokeMethod(final Object obj, final Class<?> clazz, final String name, final Object... params) throws ReflectiveOperationException {
+  public static final <T> T invokeMethod(final Class<?> clazz, final Object obj, final String name, final Object... params) throws ReflectiveOperationException {
     return (T) getMethod(clazz, name, getTypes(params)).invoke(obj, params);
   }
 
   public static final <T> T invokeMethod(final Object obj, final String name, final Object... params) throws ReflectiveOperationException {
-    return invokeMethod(obj, obj.getClass(), name, params);
+    return invokeMethod(obj.getClass(), obj, name, params);
   }
 
   public static final <T> T invokeMethod(final Class<?> clazz, final String name, final Object... params) throws ReflectiveOperationException {

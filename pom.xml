@@ -10,7 +10,7 @@
   <distributionManagement>
     <repository>
       <id>github</id>
-      <url>https://maven.pkg.github.com/colbster937/java-mirror</url>
+      <url>https://maven.pkg.github.com/colbster937/java-mirror/</url>
     </repository>
   </distributionManagement>
 </project>

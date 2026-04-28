@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 public final class MirrorObject<O> {
   private final O obj;
 
-  public MirrorObject(final O obj) {
+  private MirrorObject(final O obj) {
     this.obj = obj;
   }
 
