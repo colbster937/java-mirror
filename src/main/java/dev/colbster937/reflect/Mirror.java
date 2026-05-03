@@ -3,21 +3,13 @@ package dev.colbster937.reflect;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings({ "unchecked", "FinalPrivateMethod" })
 public final class Mirror {
-  private static final Map<Class<?>, Class<?>> PRIMITIVES = Map.of(
-    int.class, Integer.class,
-    boolean.class, Boolean.class,
-    double.class, Double.class,
-    float.class, Float.class,
-    long.class, Long.class,
-    short.class, Short.class,
-    byte.class, Byte.class,
-    char.class, Character.class,
-    void.class, Void.class
-  );
+  private static final Map<Class<?>, Class<?>> PRIMITIVES;
 
   public static final Field getField(final Class<?> clazz, final String name) throws ReflectiveOperationException {
     try {
@@ -47,7 +39,7 @@ public final class Mirror {
   }
 
   public static final <T> T getFieldValue(final Class<?> clazz, final String name) throws ReflectiveOperationException {
-    return getFieldValue(null, clazz, name);
+    return getFieldValue(clazz, null, name);
   }
 
   public static final void setFieldValue(final Class<?> clazz, final Object obj, final String name, final Object value) throws ReflectiveOperationException {
@@ -97,7 +89,7 @@ public final class Mirror {
   }
 
   public static final <T> T invokeMethod(final Class<?> clazz, final String name, final Object... params) throws ReflectiveOperationException {
-    return invokeMethod(null, clazz, name, params);
+    return invokeMethod(clazz, null, name, params);
   }
 
   public static final Constructor<?> getConstructor(final Class<?> clazz, final Class<?>... params) throws ReflectiveOperationException {
@@ -200,5 +192,21 @@ public final class Mirror {
     }
 
     return ret;
+  }
+
+  static {
+    final Map<Class<?>, Class<?>> map = new HashMap<>();
+
+    map.put(int.class, Integer.class);
+    map.put(boolean.class, Boolean.class);
+    map.put(double.class, Double.class);
+    map.put(float.class, Float.class);
+    map.put(long.class, Long.class);
+    map.put(short.class, Short.class);
+    map.put(byte.class, Byte.class);
+    map.put(char.class, Character.class);
+    map.put(void.class, Void.class);
+
+    PRIMITIVES = Collections.unmodifiableMap(map);
   }
 }
