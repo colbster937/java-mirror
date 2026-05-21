@@ -89,4 +89,8 @@ public final class MirrorSafe {
       return null;
     }
   }
+
+  public static final boolean getClassExists(final String clazz) {
+    return getClass(clazz) != null;
+  }
 }
