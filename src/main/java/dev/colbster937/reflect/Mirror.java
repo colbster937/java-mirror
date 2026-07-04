@@ -127,6 +127,10 @@ public final class Mirror {
     }
   }
 
+  public static final boolean hasField(final Object obj, final String name) {
+    return hasField(obj.getClass(), name);
+  }
+
   public static final boolean hasMethod(final Class<?> clazz, final String name, final Class<?>... params) {
     try {
       clazz.getDeclaredMethod(name, params);
@@ -139,6 +143,10 @@ public final class Mirror {
         return false;
       }
     }
+  }
+
+  public static final boolean hasMethod(final Object obj, final String name, final Class<?>... params) {
+    return hasMethod(obj.getClass(), name, params);
   }
 
   public static final boolean hasConstructor(final Class<?> clazz, final Class<?>... params) {
