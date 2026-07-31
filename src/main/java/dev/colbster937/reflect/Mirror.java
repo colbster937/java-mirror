@@ -30,7 +30,8 @@ public final class Mirror {
     return getField(obj.getClass(), name);
   }
 
-  public static final <T> T getFieldValue(final Class<?> clazz, final Object obj, final String name) throws ReflectiveOperationException {
+  public static final <T> T getFieldValue(final Class<?> clazz, final Object obj, final String name)
+      throws ReflectiveOperationException {
     return (T) getField(clazz, name).get(obj);
   }
 
@@ -42,19 +43,23 @@ public final class Mirror {
     return getFieldValue(clazz, null, name);
   }
 
-  public static final void setFieldValue(final Class<?> clazz, final Object obj, final String name, final Object value) throws ReflectiveOperationException {
+  public static final void setFieldValue(final Class<?> clazz, final Object obj, final String name, final Object value)
+      throws ReflectiveOperationException {
     getField(clazz, name).set(obj, value);
   }
 
-  public static final void setFieldValue(final Object obj, final String name, final Object value) throws ReflectiveOperationException {
+  public static final void setFieldValue(final Object obj, final String name, final Object value)
+      throws ReflectiveOperationException {
     setFieldValue(obj.getClass(), obj, name, value);
   }
 
-  public static final void setFieldValue(final Class<?> clazz, final String name, final Object value) throws ReflectiveOperationException {
+  public static final void setFieldValue(final Class<?> clazz, final String name, final Object value)
+      throws ReflectiveOperationException {
     setFieldValue(clazz, null, name, value);
   }
 
-  public static final Method getMethod(final Class<?> clazz, final String name, final Class<?>... params) throws ReflectiveOperationException {
+  public static final Method getMethod(final Class<?> clazz, final String name, final Class<?> ...params)
+      throws ReflectiveOperationException {
     try {
       final Method method = clazz.getDeclaredMethod(name, params);
       method.setAccessible(true);
@@ -76,23 +81,28 @@ public final class Mirror {
     }
   }
 
-  public static final Method getMethod(final Object obj, final String name, final Class<?>... params) throws ReflectiveOperationException {
+  public static final Method getMethod(final Object obj, final String name, final Class<?> ...params)
+      throws ReflectiveOperationException {
     return getMethod(obj.getClass(), name, params);
   }
 
-  public static final <T> T invokeMethod(final Class<?> clazz, final Object obj, final String name, final Object... params) throws ReflectiveOperationException {
+  public static final <T> T invokeMethod(final Class<?> clazz, final Object obj, final String name,
+      final Object ...params) throws ReflectiveOperationException {
     return (T) getMethod(clazz, name, getTypes(params)).invoke(obj, params);
   }
 
-  public static final <T> T invokeMethod(final Object obj, final String name, final Object... params) throws ReflectiveOperationException {
+  public static final <T> T invokeMethod(final Object obj, final String name, final Object ...params)
+      throws ReflectiveOperationException {
     return invokeMethod(obj.getClass(), obj, name, params);
   }
 
-  public static final <T> T invokeMethod(final Class<?> clazz, final String name, final Object... params) throws ReflectiveOperationException {
+  public static final <T> T invokeMethod(final Class<?> clazz, final String name, final Object ...params)
+      throws ReflectiveOperationException {
     return invokeMethod(clazz, null, name, params);
   }
 
-  public static final Constructor<?> getConstructor(final Class<?> clazz, final Class<?>... params) throws ReflectiveOperationException {
+  public static final Constructor<?> getConstructor(final Class<?> clazz, final Class<?> ...params)
+      throws ReflectiveOperationException {
     try {
       final Constructor<?> constructor = clazz.getDeclaredConstructor(params);
       constructor.setAccessible(true);
@@ -109,7 +119,8 @@ public final class Mirror {
     }
   }
 
-  public static final <T> T invokeConstructor(final Class<?> clazz, final Object... params) throws ReflectiveOperationException {
+  public static final <T> T invokeConstructor(final Class<?> clazz, final Object ...params)
+      throws ReflectiveOperationException {
     return (T) getConstructor(clazz, getTypes(params)).newInstance(params);
   }
 
@@ -131,7 +142,7 @@ public final class Mirror {
     return hasField(obj.getClass(), name);
   }
 
-  public static final boolean hasMethod(final Class<?> clazz, final String name, final Class<?>... params) {
+  public static final boolean hasMethod(final Class<?> clazz, final String name, final Class<?> ...params) {
     try {
       clazz.getDeclaredMethod(name, params);
       return true;
@@ -145,11 +156,11 @@ public final class Mirror {
     }
   }
 
-  public static final boolean hasMethod(final Object obj, final String name, final Class<?>... params) {
+  public static final boolean hasMethod(final Object obj, final String name, final Class<?> ...params) {
     return hasMethod(obj.getClass(), name, params);
   }
 
-  public static final boolean hasConstructor(final Class<?> clazz, final Class<?>... params) {
+  public static final boolean hasConstructor(final Class<?> clazz, final Class<?> ...params) {
     try {
       clazz.getDeclaredConstructor(params);
       return true;
@@ -162,7 +173,7 @@ public final class Mirror {
     return PRIMITIVES.getOrDefault(clazz, clazz);
   }
 
-  private static final Class<?>[] getTypes(final Object... params) {
+  public static final Class<?>[] getTypes(final Object ...params) {
     final Class<?>[] types = new Class[params.length];
 
     for (int i = 0; i < params.length; i++) {
