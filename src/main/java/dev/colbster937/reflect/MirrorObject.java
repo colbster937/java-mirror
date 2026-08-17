@@ -10,44 +10,44 @@ public final class MirrorObject<O> {
     this.obj = obj;
   }
 
-  public final Field getField(final String name) {
+  public Field getField(final String name) {
     return MirrorSafe.getField(this.obj, name);
   }
 
-  public final <T> T getFieldValue(final String name) {
+  public <T> T getFieldValue(final String name) {
     return MirrorSafe.getFieldValue(this.obj, name);
   }
 
-  public final boolean hasField(final String name) {
+  public boolean hasField(final String name) {
     return Mirror.hasField(this.obj, name);
   }
 
-  public final void setFieldValue(final String name, final Object value) {
+  public void setFieldValue(final String name, final Object value) {
     MirrorSafe.setFieldValue(this.obj, name, value);
   }
 
-  public final Method getMethod(final String name, final Object ...params) {
+  public Method getMethod(final String name, final Object ...params) {
     return MirrorSafe.getMethod(this.obj, name, Mirror.getTypes(params));
   }
 
-  public final <T> T invokeMethod(final String name, final Object ...params) {
+  public <T> T invokeMethod(final String name, final Object ...params) {
     return MirrorSafe.invokeMethod(this.obj, name, params);
   }
 
-  public final boolean hasMethod(final String name, final Class<?> ...params) {
+  public boolean hasMethod(final String name, final Class<?> ...params) {
     return Mirror.hasMethod(this.obj, name, params);
   }
 
-  public final O getObject() {
+  public O getObject() {
     return this.obj;
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     return this.obj.toString();
   }
 
-  public static final MirrorObject<?> create(final Object obj) {
+  public MirrorObject<?> create(final Object obj) {
     return new MirrorObject<>(obj);
   }
 }

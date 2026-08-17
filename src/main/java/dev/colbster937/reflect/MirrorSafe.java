@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public final class MirrorSafe {
-  public static final Field getField(final Class<?> clazz, final String name) {
+  public static Field getField(final Class<?> clazz, final String name) {
     try {
       return Mirror.getField(clazz, name);
     } catch (final ReflectiveOperationException ex) {
@@ -12,11 +12,11 @@ public final class MirrorSafe {
     }
   }
 
-  public static final Field getField(final Object obj, final String name) {
+  public static Field getField(final Object obj, final String name) {
     return getField(obj.getClass(), name);
   }
 
-  public static final <T> T getFieldValue(final Class<?> clazz, final Object obj, final String name) {
+  public static <T> T getFieldValue(final Class<?> clazz, final Object obj, final String name) {
     try {
       return Mirror.getFieldValue(clazz, obj, name);
     } catch (final ReflectiveOperationException ex) {
@@ -24,15 +24,15 @@ public final class MirrorSafe {
     }
   }
 
-  public static final <T> T getFieldValue(final Object obj, final String name) {
+  public static <T> T getFieldValue(final Object obj, final String name) {
     return getFieldValue(obj.getClass(), obj, name);
   }
 
-  public static final <T> T getFieldValue(final Class<?> clazz, final String name) {
+  public static <T> T getFieldValue(final Class<?> clazz, final String name) {
     return getFieldValue(clazz, null, name);
   }
 
-  public static final void setFieldValue(final Class<?> clazz, final Object obj, final String name,
+  public static void setFieldValue(final Class<?> clazz, final Object obj, final String name,
       final Object value) {
     try {
       Mirror.setFieldValue(clazz, obj, name, value);
@@ -40,23 +40,23 @@ public final class MirrorSafe {
     }
   }
 
-  public static final void setFieldValue(final Object obj, final String name, final Object value) {
+  public static void setFieldValue(final Object obj, final String name, final Object value) {
     setFieldValue(obj.getClass(), obj, name, value);
   }
 
-  public static final void setFieldValue(final Class<?> clazz, final String name, final Object value) {
+  public static void setFieldValue(final Class<?> clazz, final String name, final Object value) {
     setFieldValue(clazz, null, name, value);
   }
 
-  public static final boolean getFieldExists(final Class<?> clazz, final String name) {
+  public static boolean getFieldExists(final Class<?> clazz, final String name) {
     return getField(clazz, name) != null;
   }
 
-  public static final boolean getFieldExists(final Object obj, final String name) {
+  public static boolean getFieldExists(final Object obj, final String name) {
     return getFieldExists(obj.getClass(), name);
   }
 
-  public static final Method getMethod(final Class<?> clazz, final String name, final Class<?> ...params) {
+  public static Method getMethod(final Class<?> clazz, final String name, final Class<?> ...params) {
     try {
       return Mirror.getMethod(clazz, name, params);
     } catch (final ReflectiveOperationException ex) {
@@ -64,19 +64,19 @@ public final class MirrorSafe {
     }
   }
 
-  public static final Method getMethod(final Object obj, final String name, final Class<?> ...params) {
+  public static Method getMethod(final Object obj, final String name, final Class<?> ...params) {
     return getMethod(obj.getClass(), name, params);
   }
 
-  public static final Method getMethod(final Class<?> clazz, final String name) {
+  public static Method getMethod(final Class<?> clazz, final String name) {
     return getMethod(clazz, name, new Class<?>[0]);
   }
 
-  public static final Method getMethod(final Object obj, final String name) {
+  public static Method getMethod(final Object obj, final String name) {
     return getMethod(obj.getClass(), name);
   }
 
-  public static final <T> T invokeMethod(final Class<?> clazz, final Object obj, final String name,
+  public static <T> T invokeMethod(final Class<?> clazz, final Object obj, final String name,
       final Object... params) {
     try {
       return Mirror.invokeMethod(clazz, obj, name, params);
@@ -85,15 +85,15 @@ public final class MirrorSafe {
     }
   }
 
-  public static final <T> T invokeMethod(final Object obj, final String name, final Object ...params) {
+  public static <T> T invokeMethod(final Object obj, final String name, final Object ...params) {
     return invokeMethod(obj.getClass(), obj, name, params);
   }
 
-  public static final <T> T invokeMethod(final Class<?> clazz, final String name, final Object ...params) {
+  public static <T> T invokeMethod(final Class<?> clazz, final String name, final Object ...params) {
     return invokeMethod(clazz, null, name, params);
   }
 
-  public static final <T> T invokeConstructor(final Class<?> clazz, final Object... params) {
+  public static <T> T invokeConstructor(final Class<?> clazz, final Object... params) {
     try {
       return Mirror.invokeConstructor(clazz, params);
     } catch (final ReflectiveOperationException ex) {
@@ -101,7 +101,7 @@ public final class MirrorSafe {
     }
   }
 
-  public static final Class<?> getClass(final String clazz) {
+  public static Class<?> getClass(final String clazz) {
     try {
       return Class.forName(clazz);
     } catch (final ClassNotFoundException ex) {
@@ -109,7 +109,7 @@ public final class MirrorSafe {
     }
   }
 
-  public static final boolean getClassExists(final String clazz) {
+  public static boolean getClassExists(final String clazz) {
     return getClass(clazz) != null;
   }
 }
