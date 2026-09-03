@@ -1,10 +1,17 @@
 package dev.colbster937.reflect;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings({ "unused" })
 public final class MirrorTest {
   private static class ClassA {
     private static int valS = 937;
@@ -18,15 +25,15 @@ public final class MirrorTest {
       this(0);
     }
 
-    private ClassA(final int a) {
+    private ClassA(int a) {
       this.valI += a;
     }
 
-    private final int addI(final int a, final int b) {
+    private final int addI(int a, int b) {
       return addS(a, b);
     }
 
-    private static final int addS(final int a, final int b) {
+    private static final int addS(int a, int b) {
       return a + b;
     }
   }
@@ -35,24 +42,32 @@ public final class MirrorTest {
   }
 
   @Test
+  public final void getField() throws Exception {
+    for (Class<?> clazz : new Class<?>[] { ClassA.class, ClassB.class }) {
+      final Field field = Mirror.getField(clazz, "valI");
+      assertSame(field, Mirror.getField(clazz, "valI"));
+    }
+  }
+
+  @Test
   public final void getFieldValue() throws Exception {
-    for (final ClassA obj : new ClassA[] { new ClassA(), new ClassB() }) {
+    for (ClassA obj : new ClassA[] { new ClassA(), new ClassB() }) {
       assertEquals(937, (int) Mirror.getFieldValue(obj, "valI"));
     }
 
-    for (final Class<?> clazz : new Class<?>[] { ClassA.class, ClassB.class }) {
+    for (Class<?> clazz : new Class<?>[] { ClassA.class, ClassB.class }) {
       assertEquals(937, (int) Mirror.getFieldValue(clazz, "valS"));
     }
   }
 
   @Test
   public final void setFieldValue() throws Exception {
-    for (final ClassA obj : new ClassA[] { new ClassA(), new ClassB() }) {
+    for (ClassA obj : new ClassA[] { new ClassA(), new ClassB() }) {
       Mirror.setFieldValue(obj, "valI", 1000);
       assertEquals(1000, obj.valI());
     }
 
-    for (final Class<?> clazz : new Class<?>[] { ClassA.class, ClassB.class }) {
+    for (Class<?> clazz : new Class<?>[] { ClassA.class, ClassB.class }) {
       final int i = Mirror.getFieldValue(clazz, "valS");
       Mirror.setFieldValue(clazz, "valS", 1000);
       assertEquals(1000, (int) Mirror.getFieldValue(clazz, "valS"));
@@ -61,14 +76,28 @@ public final class MirrorTest {
   }
 
   @Test
+  public final void getMethod() throws Exception {
+    for (Class<?> clazz : new Class<?>[] { ClassA.class, ClassB.class }) {
+      final Method method = Mirror.getMethod(clazz, "addI", Integer.class, Integer.class);
+      assertSame(method, Mirror.getMethod(clazz, "addI", Integer.class, Integer.class));
+    }
+  }
+
+  @Test
   public final void invokeMethod() throws Exception {
-    for (final ClassA obj : new ClassA[] { new ClassA(), new ClassB() }) {
+    for (ClassA obj : new ClassA[] { new ClassA(), new ClassB() }) {
       assertEquals(1000, (int) Mirror.invokeMethod(obj, "addI", 937, 63));
     }
 
-    for (final Class<?> clazz : new Class<?>[] { ClassA.class, ClassB.class }) {
+    for (Class<?> clazz : new Class<?>[] { ClassA.class, ClassB.class }) {
       assertEquals(1000, (int) Mirror.invokeMethod(clazz, "addS", 937, 63));
     }
+  }
+
+  @Test
+  public final void getConstructor() throws Exception {
+    final Constructor<?> constructor = Mirror.getConstructor(ClassA.class, Integer.class);
+    assertSame(constructor, Mirror.getConstructor(ClassA.class, Integer.class));
   }
 
   @Test
