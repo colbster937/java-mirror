@@ -1,5 +1,6 @@
 package dev.colbster937.reflect;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -76,6 +77,22 @@ public final class MirrorSafe {
     return getMethod(obj.getClass(), name);
   }
 
+  public static boolean getMethodExists(Class<?> clazz, String name, Class<?>... params) {
+    return getMethod(clazz, name, params) != null;
+  }
+
+  public static boolean getMethodExists(Object obj, String name, Class<?>... params) {
+    return getMethodExists(obj.getClass(), name, params);
+  }
+
+  public static boolean getMethodExists(Class<?> clazz, String name) {
+    return getMethodExists(clazz, name, new Class<?>[0]);
+  }
+
+  public static boolean getMethodExists(Object obj, String name) {
+    return getMethodExists(obj.getClass(), name);
+  }
+
   public static <T> T invokeMethod(Class<?> clazz, Object obj, String name,
       final Object... params) {
     try {
@@ -91,6 +108,14 @@ public final class MirrorSafe {
 
   public static <T> T invokeMethod(Class<?> clazz, String name, Object... params) {
     return invokeMethod(clazz, null, name, params);
+  }
+
+  public static Constructor<?> getConstructor(Class<?> clazz, Object... params) {
+    try {
+      return Mirror.getConstructor(clazz, Mirror.getTypes(params));
+    } catch (ReflectiveOperationException ex) {
+      return null;
+    }
   }
 
   public static <T> T invokeConstructor(Class<?> clazz, Object... params) {
