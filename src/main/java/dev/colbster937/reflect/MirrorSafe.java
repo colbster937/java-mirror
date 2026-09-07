@@ -110,9 +110,9 @@ public final class MirrorSafe {
     return invokeMethod(clazz, null, name, params);
   }
 
-  public static Constructor<?> getConstructor(Class<?> clazz, Object... params) {
+  public static Constructor<?> getConstructor(Class<?> clazz, Class<?>... params) {
     try {
-      return Mirror.getConstructor(clazz, Mirror.getTypes(params));
+      return Mirror.getConstructor(clazz, params);
     } catch (ReflectiveOperationException ex) {
       return null;
     }
