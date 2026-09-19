@@ -33,20 +33,22 @@ public final class MirrorSafe {
     return getFieldValue(clazz, null, name);
   }
 
-  public static void setFieldValue(Class<?> clazz, Object obj, String name,
+  public static boolean setFieldValue(Class<?> clazz, Object obj, String name,
       final Object value) {
     try {
       Mirror.setFieldValue(clazz, obj, name, value);
+      return true;
     } catch (ReflectiveOperationException ex) {
+      return false;
     }
   }
 
-  public static void setFieldValue(Object obj, String name, Object value) {
-    setFieldValue(obj.getClass(), obj, name, value);
+  public static boolean setFieldValue(Object obj, String name, Object value) {
+    return setFieldValue(obj.getClass(), obj, name, value);
   }
 
-  public static void setFieldValue(Class<?> clazz, String name, Object value) {
-    setFieldValue(clazz, null, name, value);
+  public static boolean setFieldValue(Class<?> clazz, String name, Object value) {
+    return setFieldValue(clazz, null, name, value);
   }
 
   public static boolean getFieldExists(Class<?> clazz, String name) {
