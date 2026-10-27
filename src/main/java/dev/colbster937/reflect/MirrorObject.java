@@ -47,7 +47,7 @@ public final class MirrorObject<O> {
     return this.obj.toString();
   }
 
-  public MirrorObject<?> create(Object obj) {
+  public static MirrorObject<?> create(Object obj) {
     return new MirrorObject<>(obj);
   }
 }
